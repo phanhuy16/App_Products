@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +36,21 @@ public class CartActivity extends AppCompatActivity {
         initList();
         bottomNavigation();
         calculateCart();
+        buyCart();
     }
+
+    private void buyCart() {
+        ConstraintLayout btnBuyCart = findViewById(R.id.btnBuyCart);
+        btnBuyCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Successful purchase!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CartActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void bottomNavigation() {
         LinearLayout homeBtn = findViewById(R.id.homeBtn);

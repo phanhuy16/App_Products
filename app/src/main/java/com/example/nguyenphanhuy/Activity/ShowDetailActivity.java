@@ -2,6 +2,7 @@ package com.example.nguyenphanhuy.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -73,6 +74,8 @@ private ManagementCart managementCart;
             public void onClick(View v) {
                 object.setNumberInCart(numberOrder);
                 managementCart.insertFood(object);
+
+                startActivity(new Intent(ShowDetailActivity.this, MainActivity.class));
             }
         });
     }

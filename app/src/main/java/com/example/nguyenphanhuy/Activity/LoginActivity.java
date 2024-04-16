@@ -2,46 +2,64 @@ package com.example.nguyenphanhuy.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import com.example.nguyenphanhuy.R;
+import com.example.nguyenphanhuy.Interface.Methods;
+import com.example.nguyenphanhuy.Api.Token;
+import android.widget.Toast;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText emailEditText;
+    private EditText passwordEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        emailEditText = findViewById(R.id.email);
+        passwordEditText = findViewById(R.id.password);
         ConstraintLayout btnNext = findViewById(R.id.btnNext);
         ConstraintLayout createRegiter = findViewById(R.id.createRegiter);
+
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), MainActivity.class);
-                EditText objUser = findViewById(R.id.user);
-                String dataUser = objUser.getText().toString();
-                it.putExtra("user", dataUser);
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-                EditText objPassword = findViewById(R.id.password);
-                String dataPassword = objPassword.getText().toString();
-                it.putExtra("password", dataPassword);
+                LoginRequest loginRequest = new LoginRequest(email, password);
 
-                String user = "huy";
-                String password = "123456";
-                if (dataUser.equals(user) && dataPassword.equals(password)) {
-                    startActivity(it);
-                } else {
-                    CharSequence text = "Erorr login";
-                    int duration = Toast.LENGTH_SHORT;
+                Methods methods = Methods.getRetrofitInstance().create(Methods.class);
 
-                    Toast toast = Toast.makeText(LoginActivity.this, text, duration);
-                    toast.show();
-                }
+                Call<Token> call = methods.login(loginRequest);
+
+                call.enqueue(new Callback<Token>() {
+                    @Override
+                    public void onResponse(Call<Token> call, Response<Token> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            Token token = response.body();
+
+                            Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Token> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "Login Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

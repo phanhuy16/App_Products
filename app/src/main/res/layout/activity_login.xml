@@ -63,16 +63,18 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/user"
+            android:id="@+id/email"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/background_category"
+            android:drawableStart="@drawable/email"
+            android:drawablePadding="10dp"
             android:ems="10"
-            android:inputType="text"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:padding="16dp"
-            android:textSize="16sp"
-            android:hint="Username" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -90,11 +92,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/background_category"
+            android:drawableStart="@drawable/password"
+            android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Password"
             android:inputType="textPassword"
             android:padding="16dp"
-            android:textSize="16sp"
-            android:hint="Password" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -127,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Sign in"
+                android:text="Login"
                 android:textColor="#ffffff"
                 android:textSize="26sp"
                 android:textStyle="bold"
